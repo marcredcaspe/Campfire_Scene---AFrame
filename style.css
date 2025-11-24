@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background-color: #0a0a0a;
+    font-family: Arial, sans-serif;
+}
+
+a-scene {
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Hide A-Frame UI elements if needed */
+.a-enter-vr-button {
+    display: none;
+}

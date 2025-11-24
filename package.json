@@ -1,0 +1,36 @@
+{
+  "name": "Campfire_scene",
+  "private": true,
+  "version": "0.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron": "electron .",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "vite build && electron-builder"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.9.1",
+    "vite": "^4.0.4",
+    "wait-on": "^7.2.0"
+  },
+  "dependencies": {
+    "lil-gui": "^0.17.0",
+    "three": "^0.148.0"
+  },
+  "build": {
+    "appId": "com.campfire.scene",
+    "productName": "Campfire Scene",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js"
+    ]
+  }
+}

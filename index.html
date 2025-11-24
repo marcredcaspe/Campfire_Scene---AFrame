@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campfire Scene - A-Frame</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <a-scene 
+        fog="type: linear; color: #0a0a0a; near: 1; far: 15"
+        background="color: #0a0a0a"
+        renderer="shadowMapEnabled: true; shadowMapType: pcfsoft"
+        physics="driver: local"
+    >
+        <!-- Assets -->
+        <a-assets>
+            <img id="grassColor" src="/textures/grass/color.jpg">
+            <img id="grassAO" src="/textures/grass/ambientOcclusion.jpg">
+            <img id="grassNormal" src="/textures/grass/normal.jpg">
+            <img id="grassRoughness" src="/textures/grass/roughness.jpg">
+        </a-assets>
+
+        <!-- Camera with movement controls -->
+        <a-entity id="rig" 
+            wasd-controls="acceleration: 15"
+            look-controls="pointerLockEnabled: true"
+            position="4 0 5"
+            boundary-checker="maxRadius: 26"
+        >
+            <a-camera id="camera" position="0 1.6 0" wasd-controls="enabled: false"></a-camera>
+        </a-entity>
+
+        <!-- Ground -->
+        <a-plane 
+            id="ground"
+            rotation="-90 0 0" 
+            width="60" 
+            height="60"
+            material="
+                src: #grassColor;
+                repeat: 24 24;
+                roughnessMap: #grassRoughness;
+                normalMap: #grassNormal;
+                aoMap: #grassAO;
+                roughness: 0.8;
+                metalness: 0.2
+            "
+            shadow="receive: true"
+        ></a-plane>
+
+        <!-- Camp Group -->
+        <a-entity id="camp" position="0 0 -6">
+            <!-- Tent -->
+            <a-cone 
+                id="tent"
+                radius-bottom="2.2" 
+                height="1.8" 
+                segments-radial="4"
+                position="0 0.9 0"
+                material="color: #c7b9a8; roughness: 0.7; metalness: 0.1"
+                shadow="cast: true; receive: true"
+            ></a-cone>
+        </a-entity>
+
+        <!-- Fire Logs Group -->
+        <a-entity id="fireLogs">
+            <!-- Log 1 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="0 0 45"
+                position="0.4 0.1 0.3"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+            <!-- Log 2 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="0 0 -45"
+                position="-0.4 0.1 -0.3"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+            <!-- Log 3 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="45 0 45"
+                position="0.3 0.1 -0.4"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+            <!-- Log 4 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="45 0 -45"
+                position="-0.3 0.1 0.10"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+            <!-- Log 5 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="-45 0 45"
+                position="0 0.1 0.6"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+            <!-- Log 6 -->
+            <a-cylinder 
+                radius="0.1" 
+                height="1" 
+                rotation="63 0 45"
+                position="0 0.1 -0.6"
+                material="color: #5a3e2b; roughness: 0.9; metalness: 0.05"
+                shadow="cast: true; receive: true"
+            ></a-cylinder>
+        </a-entity>
+
+        <!-- Chair Log (Sittable) -->
+        <a-cylinder 
+            id="chairLog"
+            radius="0.30" 
+            height="1.8" 
+            rotation="0 0 90"
+            position="0 0.2 1.7"
+            material="color: #6b4a2b; roughness: 0.85; metalness: 0.05"
+            shadow="cast: true; receive: true"
+            proximity-detector="distance: 2; target: #rig"
+            log-chair=""
+        ></a-cylinder>
+
+        <!-- Fire Lights -->
+        <a-light 
+            id="fireLight1"
+            type="point" 
+            color="#ff7b00" 
+            intensity="2.5" 
+            distance="8"
+            position="0 0.3 0"
+            shadow="cast: true; mapSize: 512 512; cameraNear: 0.1; cameraFar: 8"
+            fire-light=""
+        ></a-light>
+        <a-light 
+            id="fireLight2"
+            type="point" 
+            color="#ffaa00" 
+            intensity="1.8" 
+            distance="6"
+            position="0.2 0.2 0.1"
+            shadow="cast: true; mapSize: 256 256; cameraNear: 0.1; cameraFar: 6"
+            fire-light=""
+        ></a-light>
+        <a-light 
+            id="fireLight3"
+            type="point" 
+            color="#ff6600" 
+            intensity="1.2" 
+            distance="5"
+            position="-0.2 0.25 -0.1"
+            shadow="cast: true; mapSize: 256 256; cameraNear: 0.1; cameraFar: 5"
+            fire-light=""
+        ></a-light>
+        <a-light 
+            id="fireGlow"
+            type="point" 
+            color="#ff9933" 
+            intensity="1.0" 
+            distance="10"
+            position="0 0.5 0"
+            fire-light=""
+        ></a-light>
+        <a-light 
+            id="groundReflection"
+            type="point" 
+            color="#ff7700" 
+            intensity="0.8" 
+            distance="4"
+            position="0 0.05 0"
+            shadow="cast: true; mapSize: 512 512; cameraNear: 0.05; cameraFar: 4"
+            fire-light=""
+        ></a-light>
+
+        <!-- Moon Light -->
+        <a-light 
+            type="directional" 
+            color="#b9d5ff" 
+            intensity="0.15" 
+            position="4 5 -2"
+            shadow="cast: true; mapSize: 1024 1024"
+        ></a-light>
+
+        <!-- Ambient Light -->
+        <a-light type="ambient" color="#404040" intensity="0.3"></a-light>
+
+        <!-- Trees (will be generated by component) -->
+        <a-entity id="trees" tree-generator=""></a-entity>
+
+        <!-- Mountains as boundaries -->
+        <a-entity id="mountains" mountain-boundary=""></a-entity>
+
+        <!-- UI Popup for sitting -->
+        <a-entity 
+            id="sitPopup"
+            ui-popup=""
+            visible="false"
+            position="0 1.5 0"
+        >
+            <a-plane 
+                width="2" 
+                height="0.5" 
+                color="#000000" 
+                opacity="0.8"
+                position="0 0 0"
+            ></a-plane>
+            <a-text 
+                value="Press E to sit" 
+                align="center" 
+                color="#ffffff"
+                position="0 0 0.01"
+                scale="1.5 1.5 1"
+            ></a-text>
+        </a-entity>
+
+        <!-- UI Popup for standing -->
+        <a-entity 
+            id="standPopup"
+            ui-popup=""
+            visible="false"
+            position="0 1.5 0"
+        >
+            <a-plane 
+                width="2" 
+                height="0.5" 
+                color="#000000" 
+                opacity="0.8"
+                position="0 0 0"
+            ></a-plane>
+            <a-text 
+                value="Press E to stand" 
+                align="center" 
+                color="#ffffff"
+                position="0 0 0.01"
+                scale="1.5 1.5 1"
+            ></a-text>
+        </a-entity>
+    </a-scene>
+
+    <script src="./aframe-components.js"></script>
+</body>
+</html>
